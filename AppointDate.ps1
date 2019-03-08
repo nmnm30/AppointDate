@@ -2,7 +2,23 @@
 # 指定日を曜日付きにする
 ############################################################
 function Apo([string]$Date, [string]$time){
-    $strDateTime = $Date + " " + $time
+
+    # 月日時刻(5/10 17:00) にするとエラーになる対策
+    try{
+        $DateTime = Get-Date $Date
+    }
+    catch{
+        return  "$Date $time は日付として認識できません"
+    }
+
+    $strDateTime = ($DateTime.Year).ToString() `
+                    + "/" `
+                    + ($DateTime.Month).ToString() `
+                    + "/" `
+                    + ($DateTime.Day).ToString() `
+                    + " " `
+                    + $time
+
     try{
         $DateTime = Get-Date $strDateTime
     }
