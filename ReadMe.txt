@@ -37,73 +37,54 @@ Profile に関数を追加します。
 ■ セット用のコピペ元
 
 #--------- ここから
-
-# Profile に追加する関数
-$HereString = @'
 ############################################################
 # 指定日を曜日付きにする
 ############################################################
-function Apo([string]$Date, [string]$time){
+function Apo([string]$Date, [string]$time, [string]$ToTime){
 
     # 月日時刻(5/10 17:00) にするとエラーになる対策
     try{
         $DateTime = Get-Date $Date
     }
     catch{
-        return  "$Date $time は日付として認識できません"
+        return  "$Date $time $ToTime は日付として認識できません"
     }
 
-    $strDateTime = ($DateTime.Year).ToString() `
-                    + "/" `
-                    + ($DateTime.Month).ToString() `
-                    + "/" `
-                    + ($DateTime.Day).ToString() `
-                    + " " `
-                    + $time
+    $strDateTime = ($DateTime).ToString("yyyy/M/d ") + $time
 
     try{
         $DateTime = Get-Date $strDateTime
     }
     catch{
-        return  "$Date $time は日付として認識できません"
+        return  "$Date $time $ToTime は日付として認識できません"
     }
 
-    $YoubiTable = @{
-        "Sunday"    = "(日)"
-        "Monday"    = "(月)"
-        "Tuesday"   = "(火)"
-        "Wednesday" = "(水)"
-        "Thursday"  = "(木)"
-        "Friday"    = "(金)"
-        "Saturday"  = "(土)"
+    # 終了時間チェック
+    if( $ToTime -ne [string]$null){
+        try{
+            $ToDateTime = Get-Date $ToTime
+        }
+        catch{
+            return  "$Date $time $ToTime は日付として認識できません"
+        }
     }
 
-    $DayOfWeek = ($DateTime.DayOfWeek).ToString()
-    $Youbi = $YoubiTable[$DayOfWeek]
-    $Year = ($DateTime.Year).ToString()
-    $Month = ($DateTime.Month).ToString()
-    $Day =  ($DateTime.Day).ToString()
-    $Hour = ($DateTime.Hour).ToString()
-    $Minute = ($DateTime.Minute).ToString("00")
-
-    if( $time -eq [string]$null){
-        $TergetDay = $Year + "年" + $Month + "月" + $Day + "日" +$Youbi
+    if( $time -eq [string]$null ){
+        $TergetDay = $DateTime.ToString("yyyy年M月d日(ddd)")
+    }
+    elseif( $ToTime -eq [string]$null ){
+        $TergetDay = $DateTime.ToString("yyyy年M月d日(ddd) H:mm ～")
     }
     else{
-        $TergetDay = $Year + "年" + $Month + "月" + $Day + "日" +$Youbi +" " + $Hour + ":" + $Minute + " ～"
+        $TergetDay = $DateTime.ToString("yyyy年M月d日(ddd) H:mm ～ ") + $ToDateTime.ToString("H:mm")
     }
 
-    # S-JIS に変更
-    $OutputEncoding = [Console]::OutputEncoding
-
     # クリップボードにコピー
-    $TergetDay | clip
-
-    # US-ASCII に戻す
-    $OutputEncoding = New-Object System.Text.ASCIIEncoding
+    $TergetDay | Set-Clipboard
 
     return $TergetDay
 }
+
 '@
 
 # ヒア文字列を文字列配列にする
@@ -126,9 +107,8 @@ Add-Content -Value $StringArray -Path $PROFILE -Encoding UTF8
 
 ■ 動作確認環境
 PowerShell 5.1
-PowerShell 6.1.1(Windows 10)
-
-Windows 以外でも動くはずです。
+PowerShell 6.x 7.x では動きません。
+Windows 環境専用です。
 
 ■ Web サイト
 
