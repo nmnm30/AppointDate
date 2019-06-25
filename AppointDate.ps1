@@ -8,7 +8,14 @@ function Apo([string]$Date, [string]$time, [string]$ToTime){
         $DateTime = Get-Date $Date
     }
     catch{
-        return  "$Date $time $ToTime は日付として認識できません"
+        $NowMonth = ((Get-Date).Month).ToString()
+        $NewDate = $NowMonth + "/" + $Date
+        try{
+            $DateTime = Get-Date $NewDate
+        }
+        catch{
+            return  "$Date $time $ToTime は日付として認識できません"
+        }
     }
 
     $strDateTime = ($DateTime).ToString("yyyy/M/d ") + $time
