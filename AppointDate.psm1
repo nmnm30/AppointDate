@@ -69,3 +69,13 @@ function Apo([string]$Date, [string]$time, [string]$ToTime){
 
     return $TergetDay
 }
+
+################################################
+# 現在時刻をクリップボードにセットする
+################################################
+function now(){
+    $NowDateTime = (Get-Date).ToString("yyyy年MM月dd日(ddd) HH:mm")
+    echo $NowDateTime
+    $NowDateTime | Set-Clipboard
+}
+

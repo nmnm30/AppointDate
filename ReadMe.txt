@@ -25,6 +25,16 @@ PowerShell プロンプトで「apo 日付 時刻」を入力します
 
 こちらもクリップボードにセットされているので、そのままペーストします。
 
+年月を省略すると、今月と判断します。
+
+    PS C:\> apo
+    2019年7月21日(日)
+
+    PS C:\> apo 10:00
+    2019年7月21日(日) 10:00 ～
+
+年月日を省略すると、今日と判断します。
+
 ■ セットの仕方
 install.ps1 を実行してください
 
@@ -49,4 +59,7 @@ GitHub でも公開しているので、最新版が欲しい方はこちらか�
 
 https://github.com/MuraAtVwnet/AppointDate
 git@github.com:MuraAtVwnet/AppointDate.git
+
+■ おまけ
+now と入力すると現在の日時をクリップボードにセットします
 
