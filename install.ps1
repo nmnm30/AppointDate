@@ -8,9 +8,11 @@ $ModulePath = Join-Path (Split-Path $PROFILE -Parent) "Modules"
 $NewPath = Join-Path $ModulePath $ModuleName
 
 # ディレクトリ作成
-md $NewPath
+if( -not (Test-Path $NewPath)){
+	md $NewPath
+}
 
 # モジュールのコピー
-$ModuleFileName = Join-Path ".\" ($ModuleName + ".psm1")
+$ModuleFileName = Join-Path $PSScriptRoot ($ModuleName + ".psm1")
 
 copy $ModuleFileName $NewPath
