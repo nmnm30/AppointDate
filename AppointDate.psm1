@@ -55,13 +55,13 @@ function Apo([string]$Date, [string]$time, [string]$ToTime){
     }
 
     if( $PointTime -eq [string]$null ){
-        $TergetDay = $DateTime.ToString("yyyy年M月d日(ddd)")
+        $TergetDay = $DateTime.ToString("yyyy年MM月dd日(ddd)")
     }
     elseif( $PointToTime -eq [string]$null ){
-        $TergetDay = $DateTime.ToString("yyyy年M月d日(ddd) H:mm ～")
+        $TergetDay = $DateTime.ToString("yyyy年MM月dd日(ddd) HH:mm ～")
     }
     else{
-        $TergetDay = $DateTime.ToString("yyyy年M月d日(ddd) H:mm ～ ") + $ToDateTime.ToString("H:mm")
+        $TergetDay = $DateTime.ToString("yyyy年MM月dd日(ddd) HH:mm ～ ") + $ToDateTime.ToString("HH:mm")
     }
 
     # クリップボードにコピー
