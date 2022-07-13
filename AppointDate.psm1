@@ -14,10 +14,35 @@ function Apo([string]$Date, [string]$time, [string]$ToTime){
     }
 
     # 時刻がセットされていたら今日とする
-    if($Date.Contains(":")){
+    if($Date.Contains(":") -or ($Date.Length -gt 2)){
         $PointDate = (Get-Date).ToString("yyyy/M/d ")
         $PointTime = $Date
         $PointToTime = $time
+    }
+
+    # 時刻の ":" が省略されている場合
+    # From Time
+    if( $PointTime -ne $null ){
+        if( -not $PointTime.Contains(":") ){
+            if( $PointTime.Length -eq 4 ){
+                $PointTime = $PointTime.Substring(0, 2) + ":" + $PointTime.Substring(2, 2)
+            }
+            elseif( $PointTime.Length -eq 3 ){
+                $PointTime = $PointTime.Substring(0, 1) + ":" + $PointTime.Substring(1, 2)
+            }
+        }
+    }
+
+    # To Time
+    if( $PointToTime -ne $null ){
+        if( -not $PointToTime.Contains(":") ){
+            if( $PointToTime.Length -eq 4 ){
+                $PointToTime = $PointToTime.Substring(0, 2) + ":" + $PointToTime.Substring(2, 2)
+            }
+            elseif( $PointToTime.Length -eq 3 ){
+                $PointToTime = $PointToTime.Substring(0, 1) + ":" + $PointToTime.Substring(1, 2)
+            }
+        }
     }
 
     # 月日時刻(5/10 17:00) にするとエラーになる対策
