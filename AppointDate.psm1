@@ -7,14 +7,21 @@ function Apo([string]$Date, [string]$time, [string]$ToTime){
     $PointTime = $time
     $PointToTime = $ToTime
 
-    # 時刻だけを指定している場合
+    # 引数が無い
     if($Date -eq [string]$null){
-        # 日付が省略されていたら今日とする
+        # 日付が省略されていので今日とする
         $PointDate = (Get-Date).ToString("yyyy/M/d ")
     }
 
+	# 日付がセットされている
+	if($Date.Contains("/")){
+		$PointDate = $Date
+        $PointTime = $time
+        $PointToTime = $ToTime
+    }
+
     # 時刻がセットされていたら今日とする
-    if($Date.Contains(":") -or ($Date.Length -gt 2)){
+    elseif($Date.Contains(":") -or ($Date.Length -gt 2)){
         $PointDate = (Get-Date).ToString("yyyy/M/d ")
         $PointTime = $Date
         $PointToTime = $time
