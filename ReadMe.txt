@@ -23,6 +23,12 @@ PowerShell プロンプトで「apo 日付 時刻」を入力します
     PS C:\> apo 2020/5/18 13:00
     2020年5月18日(月) 13:00 ～
 
+時刻の 「:」は省略可能です
+
+    PS C:\> apo 2020/5/18 1300
+    2020年5月18日(月) 13:00 ～
+
+
 こちらもクリップボードにセットされているので、そのままペーストします。
 
 年月を省略すると、今月と判断します。
@@ -36,18 +42,24 @@ PowerShell プロンプトで「apo 日付 時刻」を入力します
 年月日を省略すると、今日と判断します。
 
 ■ セットの仕方
-install.ps1 を実行してください
+#以下を PowerShell プロンプトにコピペしてください
+
+$ModuleName = "AppointDate"
+$GitHubName = "MuraAtVwnet"
+Invoke-WebRequest -Uri https://raw.githubusercontent.com/$GitHubName/$ModuleName/master/OnlineInstall.ps1 -OutFile ~/OnlineInstall.ps1
+& ~/OnlineInstall.ps1
+
 
 次に PowerShell プロンプト開くと apo コマンドが使えるようになっています。
 
 ■ Uninstall 方法
-uninstall.ps1 を実行して下さい
+
+~/UnInstallAppointDate.ps1 を実行して下さい
 (問い合わせが来たら Enter)
 
 ■ 動作確認環境
 PowerShell 5.1
-PowerShell 6.x 7.x では動きません。
-Windows 環境専用です。
+PowerShell 7.5 では動きません。
 
 ■ Web サイト
 
