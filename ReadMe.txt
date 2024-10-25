@@ -50,7 +50,18 @@ Invoke-WebRequest -Uri https://raw.githubusercontent.com/$GitHubName/$ModuleName
 & ~/OnlineInstall.ps1
 
 
-次に PowerShell プロンプト開くと apo コマンドが使えるようになっています。
+
+■ オプション
+
+apo の後に、ハイフンを入力して TAB を叩くと、オプションが補完されるのて、必要オプションを選択してください
+
+apo -[TAB]
+
+-VertionCheck
+
+最新版のスクリプトがあるか確認します
+最新版があれば、自動ダウンロード & 更新します
+
 
 ■ Uninstall 方法
 
@@ -58,8 +69,8 @@ Invoke-WebRequest -Uri https://raw.githubusercontent.com/$GitHubName/$ModuleName
 (問い合わせが来たら Enter)
 
 ■ 動作確認環境
-PowerShell 5.1
-PowerShell 7.5 では動きません。
+Windows PowerShell 5.1
+PowerShell 7.4.5 (Windows)
 
 ■ Web サイト
 
