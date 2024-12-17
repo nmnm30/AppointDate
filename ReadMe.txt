@@ -80,8 +80,8 @@ http://www.vwnet.jp/Windows/PowerShell/2019021501/AppointDate.htm
 ■ リポジトリ
 GitHub でも公開しているので、最新版が欲しい方はこちらから Clone してください。
 
-https://github.com/MuraAtVwnet/AppointDate
-git@github.com:MuraAtVwnet/AppointDate.git
+https://github.com/nmnm30/AppointDate
+git@github.com:nmnm30/AppointDate.git
 
 ■ おまけ
 now と入力すると現在の日時をクリップボードにセットします
