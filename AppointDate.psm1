@@ -90,10 +90,10 @@ function Apo([string]$Date, [string]$time, [string]$ToTime){
         $TergetDay = $DateTime.ToString("M月d日(ddd)")
     }
     elseif( $PointToTime -eq [string]$null ){
-        $TergetDay = $DateTime.ToString("M月d日(ddd) H時mm分")
+        $TergetDay = $DateTime.ToString("M月d日(ddd) H:mm")
     }
     else{
-        $TergetDay = $DateTime.ToString("M月d日(ddd) H時mm分") + $ToDateTime.ToString("HH:mm")
+        $TergetDay = $DateTime.ToString("M月d日(ddd) H:mm") + $ToDateTime.ToString("HH:mm")
     }
 
     # クリップボードにコピー
@@ -106,7 +106,7 @@ function Apo([string]$Date, [string]$time, [string]$ToTime){
 # 現在時刻をクリップボードにセットする
 ################################################
 function now(){
-    $NowDateTime = (Get-Date).ToString("M月d日(ddd) H時mm分")
+    $NowDateTime = (Get-Date).ToString("M月d日(ddd) H:mm")
     echo $NowDateTime
     $NowDateTime | Set-Clipboard
 }
