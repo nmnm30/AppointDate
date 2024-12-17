@@ -45,7 +45,7 @@ PowerShell プロンプトで「apo 日付 時刻」を入力します
 #以下を PowerShell プロンプトにコピペしてください
 
 $ModuleName = "AppointDate"
-$GitHubName = "MuraAtVwnet"
+$GitHubName = "nmnm30"
 Invoke-WebRequest -Uri https://raw.githubusercontent.com/$GitHubName/$ModuleName/master/OnlineInstall.ps1 -OutFile ~/OnlineInstall.ps1
 & ~/OnlineInstall.ps1
 
