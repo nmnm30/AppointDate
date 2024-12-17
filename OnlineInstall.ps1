@@ -5,7 +5,7 @@
 # バージョン管理ファイルは vertion.txt にしている前提
 
 $ModuleName = "AppointDate"
-$GitHubName = "MuraAtVwnet"
+$GitHubName = "nmnm30"
 
 $Module = $ModuleName + ".psm1"
 $Installer = "Install" + $ModuleName + ".ps1"
