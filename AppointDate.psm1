@@ -1,27 +1,62 @@
-﻿############################################################
+############################################################
 # 指定日を曜日付きにする
 ############################################################
 function Apo([string]$Date, [string]$time, [string]$ToTime){
 
+    # 日付が範囲指定の場合 (例: 10/13-10/14)
+    if ($Date -like "*-*") {
+        # From 日付 と To 日付に分割
+        $DateRange = $Date -split "-"
+        $FromDate = $DateRange[0]
+        $ToDate = $DateRange[1]
+
+        # FromDate 処理
+        try {
+            $FromDateTime = Get-Date $FromDate
+        }
+        catch {
+            return "$FromDate は日付として認識できません"
+        }
+
+        # ToDate 処理
+        try {
+            $ToDateTime = Get-Date $ToDate
+        }
+        catch {
+            return "$ToDate は日付として認識できません"
+        }
+
+        # 曜日付きに変換
+        $FromDay = $FromDateTime.ToString("M月d日(ddd)")
+        $ToDay = $ToDateTime.ToString("M月d日(ddd)")
+
+        # クリップボードにコピー
+        $Result = "$FromDay〜$ToDay"
+        $Result | Set-Clipboard
+
+        return $Result
+    }
+
+    # 日付のみ入力されている場合
     $PointDate = $Date
     $PointTime = $time
     $PointToTime = $ToTime
 
     # 引数が無い
-    if($Date -eq [string]$null){
-        # 日付が省略されていので今日とする
+    if ($Date -eq [string]$null) {
+        # 日付が省略されているので今日とする
         $PointDate = (Get-Date).ToString("yyyy/M/d ")
     }
 
-	# 日付がセットされている
-	if($Date.Contains("/")){
-		$PointDate = $Date
+# 日付がセットされている
+if ($Date.Contains("/")) {
+$PointDate = $Date
         $PointTime = $time
         $PointToTime = $ToTime
     }
 
     # 時刻がセットされていたら今日とする
-    elseif($Date.Contains(":") -or ($Date.Length -gt 2)){
+    elseif ($Date.Contains(":") -or ($Date.Length -gt 2)) {
         $PointDate = (Get-Date).ToString("yyyy/M/d ")
         $PointTime = $Date
         $PointToTime = $time
@@ -29,70 +64,70 @@ function Apo([string]$Date, [string]$time, [string]$ToTime){
 
     # 時刻の ":" が省略されている場合
     # From Time
-    if( $PointTime -ne $null ){
-        if( -not $PointTime.Contains(":") ){
-            if( $PointTime.Length -eq 4 ){
+    if ($PointTime -ne $null) {
+        if (-not $PointTime.Contains(":")) {
+            if ($PointTime.Length -eq 4) {
                 $PointTime = $PointTime.Substring(0, 2) + ":" + $PointTime.Substring(2, 2)
             }
-            elseif( $PointTime.Length -eq 3 ){
+            elseif ($PointTime.Length -eq 3) {
                 $PointTime = $PointTime.Substring(0, 1) + ":" + $PointTime.Substring(1, 2)
             }
         }
     }
 
     # To Time
-    if( $PointToTime -ne $null ){
-        if( -not $PointToTime.Contains(":") ){
-            if( $PointToTime.Length -eq 4 ){
+    if ($PointToTime -ne $null) {
+        if (-not $PointToTime.Contains(":")) {
+            if ($PointToTime.Length -eq 4) {
                 $PointToTime = $PointToTime.Substring(0, 2) + ":" + $PointToTime.Substring(2, 2)
             }
-            elseif( $PointToTime.Length -eq 3 ){
+            elseif ($PointToTime.Length -eq 3) {
                 $PointToTime = $PointToTime.Substring(0, 1) + ":" + $PointToTime.Substring(1, 2)
             }
         }
     }
 
     # 月日時刻(5/10 17:00) にするとエラーになる対策
-    try{
+    try {
         $DateTime = Get-Date $PointDate
     }
-    catch{
+    catch {
         $NowMonth = ((Get-Date).Month).ToString()
         $NewDate = $NowMonth + "/" + $PointDate
-        try{
+        try {
             $DateTime = Get-Date $NewDate
         }
-        catch{
+        catch {
             return "$Date $time $ToTime は日付として認識できません"
         }
     }
 
     $strDateTime = ($DateTime).ToString("yyyy/M/d ") + $PointTime
 
-    try{
+    try {
         $DateTime = Get-Date $strDateTime
     }
-    catch{
+    catch {
         return "$Date $time $ToTime は日付として認識できません"
     }
 
     # 終了時間チェック
-    if( $PointToTime -ne [string]$null){
-        try{
+    if ($PointToTime -ne [string]$null) {
+        try {
             $ToDateTime = Get-Date $PointToTime
         }
-        catch{
+        catch {
             return "$Date $time $ToTime は日付として認識できません"
         }
     }
 
-    if( $PointTime -eq [string]$null ){
+    if ($PointTime -eq [string]$null) {
         $TergetDay = $DateTime.ToString("M月d日(ddd)")
     }
-    elseif( $PointToTime -eq [string]$null ){
+    elseif ($PointToTime -eq [string]$null) {
         $TergetDay = $DateTime.ToString("M月d日(ddd) H:mm")
     }
-    else{
+    else {
         $TergetDay = $DateTime.ToString("M月d日(ddd) H:mm") + $ToDateTime.ToString("HH:mm")
     }
 
@@ -110,4 +145,3 @@ function now(){
     echo $NowDateTime
     $NowDateTime | Set-Clipboard
 }
-
