@@ -31,7 +31,7 @@ function Apo([string]$Date, [string]$time, [string]$ToTime){
         $ToDay = $ToDateTime.ToString("M月d日(ddd)")
 
         # クリップボードにコピー
-        $Result = "$FromDay〜$ToDay"
+        $Result = "$FromDay～$ToDay"
         $Result | Set-Clipboard
 
         return $Result
