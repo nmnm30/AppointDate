@@ -5,36 +5,36 @@ function Apo([string]$Date, [string]$time, [string]$ToTime){
 
     # 日付が範囲指定の場合 (例: 10/13-10/14)
     if ($Date -like "*-*") {
-        # From 日付 と To 日付に分割
-        $DateRange = $Date -split "-"
-        $FromDate = $DateRange[0]
-        $ToDate = $DateRange[1]
+    # From 日付 と To 日付に分割
+    $DateRange = $Date -split "-"
+    $FromDate = $DateRange[0]
+    $ToDate = $DateRange[1]
 
-        # FromDate 処理
-        try {
-            $FromDateTime = Get-Date $FromDate
-        }
-        catch {
-            return "$FromDate は日付として認識できません"
-        }
+    # FromDate 処理
+    try {
+        $FromDateTime = Get-Date $FromDate
+    }
+    catch {
+        return "$FromDate は日付として認識できません"
+    }
 
-        # ToDate 処理
-        try {
-            $ToDateTime = Get-Date $ToDate
-        }
-        catch {
-            return "$ToDate は日付として認識できません"
-        }
+    # ToDate 処理
+    try {
+        $ToDateTime = Get-Date $ToDate
+    }
+    catch {
+        return "$ToDate は日付として認識できません"
+    }
 
-        # 曜日付きに変換
-        $FromDay = $FromDateTime.ToString("M月d日(ddd)")
-        $ToDay = $ToDateTime.ToString("M月d日(ddd)")
+    # 曜日付きに変換
+    $FromDay = $FromDateTime.ToString("M月d日(ddd)")
+    $ToDay = $ToDateTime.ToString("M月d日(ddd)")
 
-        # クリップボードにコピー
-        $Result = "$FromDay～$ToDay"
-        $Result | Set-Clipboard
+    # クリップボードにコピー
+    $Result = "$FromDay～$ToDay"
+    $Result | Set-Clipboard
 
-        return $Result
+    return $Result
     }
 
     # 日付のみ入力されている場合
@@ -48,9 +48,9 @@ function Apo([string]$Date, [string]$time, [string]$ToTime){
         $PointDate = (Get-Date).ToString("yyyy/M/d ")
     }
 
-# 日付がセットされている
-if ($Date.Contains("/")) {
-$PointDate = $Date
+    # 日付がセットされている
+    if ($Date.Contains("/")) {
+        $PointDate = $Date
         $PointTime = $time
         $PointToTime = $ToTime
     }
@@ -78,8 +78,8 @@ $PointDate = $Date
     # To Time
     if ($PointToTime -ne $null) {
         if (-not $PointToTime.Contains(":")) {
-            if ($PointToTime.Length -eq 4) {
-                $PointToTime = $PointToTime.Substring(0, 2) + ":" + $PointToTime.Substring(2, 2)
+           if ($PointToTime.Length -eq 4) {
+               $PointToTime = $PointToTime.Substring(0, 2) + ":" + $PointToTime.Substring(2, 2)
             }
             elseif ($PointToTime.Length -eq 3) {
                 $PointToTime = $PointToTime.Substring(0, 1) + ":" + $PointToTime.Substring(1, 2)
@@ -123,12 +123,14 @@ $PointDate = $Date
 
     if ($PointTime -eq [string]$null) {
         $TergetDay = $DateTime.ToString("M月d日(ddd)")
-    }
-    elseif ($PointToTime -eq [string]$null) {
-        $TergetDay = $DateTime.ToString("M月d日(ddd) H：mm")
-    }
-    else {
-        $TergetDay = $DateTime.ToString("M月d日(ddd) H：mm") + $ToDateTime.ToString("HH:mm")
+    } elseif ($PointToTime -eq [string]$null) {
+        if ($DateTime.ToString("mm") -eq "00") {
+            $TergetDay = $DateTime.ToString("M月d日(ddd) H時")
+        } else {
+            $TergetDay = $DateTime.ToString("M月d日(ddd) H時mm分")
+        }
+    } else {
+        $TergetDay = $DateTime.ToString("M月d日(ddd) H時mm分") + $ToDateTime.ToString("HH:mm")
     }
 
     # クリップボードにコピー
@@ -141,7 +143,7 @@ $PointDate = $Date
 # 現在時刻をクリップボードにセットする
 ################################################
 function now(){
-    $NowDateTime = (Get-Date).ToString("M月d日(ddd) H：mm")
+    $NowDateTime = (Get-Date).ToString("M月d日(ddd) H時mm分")
     echo $NowDateTime
     $NowDateTime | Set-Clipboard
 }
